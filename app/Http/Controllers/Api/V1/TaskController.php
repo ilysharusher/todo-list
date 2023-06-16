@@ -15,14 +15,9 @@ class TaskController extends Controller
         return TaskResource::collection(Task::all());
     }
 
-    public function create()
-    {
-        //
-    }
-
     public function store(StoreTaskRequest $request)
     {
-        //
+        return TaskResource::make(Task::create($request->validated()));
     }
 
     public function show(Task $task)
