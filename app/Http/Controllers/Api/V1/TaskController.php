@@ -25,14 +25,9 @@ class TaskController extends Controller
         return TaskResource::make($task);
     }
 
-    public function edit(Task $task)
-    {
-        //
-    }
-
     public function update(UpdateTaskRequest $request, Task $task)
     {
-        //
+        return TaskResource::make(tap($task)->update($request->validated()));
     }
 
     public function destroy(Task $task)
