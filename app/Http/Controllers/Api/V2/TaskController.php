@@ -7,9 +7,15 @@ use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class TaskController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Task::class);
+    }
+
     public function index()
     {
         return TaskResource::collection(auth()->user()->tasks()->get());
@@ -20,8 +26,12 @@ class TaskController extends Controller
         return TaskResource::make(auth()->user()->tasks()->create($request->validated()));
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function show(Task $task)
     {
+        $this->authorize('view', $task);
         return TaskResource::make($task);
     }
 
